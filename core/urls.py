@@ -1,4 +1,3 @@
-
 from django.urls import path
 from .views import index, nosotros, blusas, vestidos, faldas, blusassale, vestidossales, faldassale, contacto
 
