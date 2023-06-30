@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'crispy_forms',
+    'crispy_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,16 +81,16 @@ WSGI_APPLICATION = 'miLTL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import cx_Oracle
-cx_Oracle.init_oracle_client(
-        lib_dir=r"C:\Users\tamar\OneDrive\Documentos\Oracle\instantclient_19_19")
+cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\josec\OneDrive\Documentos\Oracle\instantclient_19_19")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'ctic1unpevz0e7xh_high',
-        'USER': ' tiendaltl',
-        'PASSWORD': 'LTLoracle.01',
+        'NAME':'k9mjijsf6coqw2oq_high',
+        'USER': 'proyectoLTL2',
+        'PASSWORD': 'A2c9435207s_',
         
-    }
+    },
 }
 
 

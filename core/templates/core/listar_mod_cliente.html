@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+
+
+
+{% block content %}
+{% load static %}
+
+
+<h1>Listado de Clientes</h1>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr><th scope="col">Id_cliente</th><th scope="col">Nombre</th><th scope="col">Apellido</th><th scope="col">Correo</th><th scope="col">Telefono</th><th scope="col">Comuna</th><th scope="col">Ciudad</th><th scope="col">Region</th><th scope="col">Opciones</th><th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for veh in clientes %}
+                    <tr><td>{{veh.id_cliente}}</td><td>{{veh.nombre}}</td><td>{{veh.apellido}}</td><td>{{veh.correo}}</td><td>{{veh.telefono}}</td><td>{{veh.comuna}}</td><td>{{veh.ciudad}}</td><td>{{veh.region}}</td>
+                        <td><a href="{% url 'form_mod_cliente' veh.id_cliente %}">Modificar</a></td>
+                        <td><a href="{% url 'elim_cliente' veh.id_cliente %}">Eliminar</a></td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        <a href="{% url 'productos' %}">Crear Clientes</a>
+        <a href="{% url 'crear_despacho' %}">Crear Despacho</a>
+        <a href="{% url 'listar_mod_despacho' %}">Listado de Despachos</a>
+    </div>
+
+</div>
+
+<script  src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/loader.js' %}"></script>
+
+
+{% endblock %} 
