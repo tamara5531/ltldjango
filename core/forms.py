@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Cliente, Despacho
+from .models import Cliente, Despacho, Producto
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 
@@ -48,9 +48,15 @@ class FormDespacho(ModelForm):
             'cliente': forms.Select(attrs={'class':'form-control'}),
         }
 
-		
-		
-
-
+class Productoform(forms.ModelForm):
+    class Meta:
+        model = Producto
+        fields = [ 'nombre', 'precio', 'categoria', 'imagen']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class':'form-control'}),
+            'precio': forms.TextInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class':'form-control'}),
+            'imagen': forms.FileInput(attrs={'class':'form-control'}),
+        }
 
 

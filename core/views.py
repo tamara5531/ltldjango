@@ -1,9 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreacionUsuario, FormCliente, FormDespacho
+from django.views import View
+from .forms import CreacionUsuario, FormCliente, FormDespacho, Productoform
 from django.contrib.auth import authenticate, login
-from .models import Cliente, Despacho
+from .models import Cliente, Despacho, Producto, Boleta 
+from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponse
+from django.template.loader import render_to_string
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from django.core.files.base import ContentFile
+
 
 
 def index(request):
@@ -142,7 +149,111 @@ def registrar(request):
 
     return render(request, 'registration/registrar.html',data)
 
+def agregar_producto(request):
+    data = {
+        'form': Productoform()
+    }
+
+    if request.method == 'POST':
+        formulario = Productoform(data=request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Guardado correctamente"
+    else:
+        formulario = Productoform()
+        data["form"] = formulario
+    
+    return render(request, 'app/agregar.html', data)
+
+def listar_productos(request):
+     productos = Producto.objects.all ()
+
+     data = {
+         'productos': productos
+     }
+     return render(request, 'app/listar.html', data)
+    
+    
+def modificar_producto(request, id):
+    producto = get_object_or_404(Producto,  ID=id)
+
+    data = {
+        'form': Productoform(instance=producto)
+    }
+    if request.method == 'POST':
+        formulario = Productoform(data=request.POST, instance=producto, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('listar_productos')
+
+        data["form"] = formulario
+    
+    return render(request, 'app/modificar.html', data)
+
+def eliminar_producto (request, id):
+    producto = get_object_or_404 (Producto, ID=id)
+    producto.delete()
+    return redirect (to ="listar_productos")
 
 
+def boleta(request):
+    if request.method == 'POST':
+        datos_boleta = request.POST.get('datosBoleta')  # Obtener los datos JSON enviados en el cuerpo de la solicitud
+        # Realizar operaciones con los detalles de la boleta, como guardarlos en la base de datos
+        # ...
+        # Retornar una respuesta JSON (opcional)
+        return JsonResponse({'mensaje': 'Boleta guardada exitosamente'})
+    else:
+        # Manejar el caso de solicitud GET y devolver una respuesta adecuada, por ejemplo:
+        return HttpResponseNotAllowed(['POST'], 'Método no permitido')
 
+class BoletaView(View):
+    def get(self, request):
+        # Obtén los detalles de la boleta desde la base de datos o cualquier otra fuente de datos
+        detalles_boleta = obtener_detalles_boleta()
 
+        # Renderiza el template HTML con los detalles de la boleta
+        html = render_to_string('boleta.html', {'detalles_boleta': detalles_boleta})
+
+        # Crea un objeto BytesIO para almacenar el PDF generado
+        buffer = BytesIO()
+
+        # Crea un objeto PDF utilizando ReportLab o WeasyPrint
+        p = canvas.Canvas(buffer)
+
+        # Agrega el contenido de la boleta al PDF
+        p.drawString(100, 100, 'Contenido de la boleta')
+
+        # Guarda el PDF
+        p.showPage()
+        p.save()
+
+        # Establece el puntero de lectura del buffer al inicio
+        buffer.seek(0)
+
+        # Crea una instancia del modelo Boleta
+        boleta = Boleta()
+
+        # Guarda el contenido del PDF en el campo contenido_pdf de la boleta
+        boleta.contenido_pdf.save('boleta.pdf', ContentFile(buffer.getvalue()))
+
+        # Guarda la boleta en la base de datos
+        boleta.save()
+
+        # Establece el puntero de lectura del buffer al inicio nuevamente
+        buffer.seek(0)
+
+        # Crea una respuesta HTTP con el PDF como contenido
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="boleta.pdf"'
+
+        return response
+    
+def obtener_detalles_boleta():
+    # Aquí implementa la lógica para obtener los detalles de la boleta desde la base de datos o cualquier otra fuente de datos
+    # Por ejemplo, puedes consultar el modelo Boleta para obtener los detalles almacenados en la base de datos
+    detalles_boleta = Boleta.objects.all()  # Ejemplo: Obtener todas las boletas
+    
+    # Realiza cualquier manipulación o transformación necesaria en los detalles de la boleta
+    
+    return detalles_boleta

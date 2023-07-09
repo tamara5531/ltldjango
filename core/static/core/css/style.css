@@ -92,6 +92,9 @@ overflow: hidden;
         height: 40px;
         stroke: #000;
         cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         
     }
     
@@ -99,7 +102,9 @@ overflow: hidden;
     
         position: relative;
         
+        
     }
+    
     
     .count-products{
     
@@ -143,7 +148,7 @@ overflow: hidden;
     .cart-product{
     
         display: flex;
-        padding: 30px;
+        padding: 10px;
         align-items: center;
         justify-content: space-between;
     
@@ -374,8 +379,10 @@ overflow: hidden;
        
         }
     .nav-link {color:#000;
+    
         }
 
+    
 
     .cart-empty{
             padding: 20px;
