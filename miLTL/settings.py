@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'core',
 ]
 
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'miLTL.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,13 +82,13 @@ WSGI_APPLICATION = 'miLTL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import cx_Oracle
-cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\josec\OneDrive\Documentos\Oracle\instantclient_19_19")
+cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\tamar\OneDrive\Documentos\Oracle\instantclient_19_19")
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME':'k9mjijsf6coqw2oq_high',
-        'USER': 'proyectoLTL2',
+        'NAME':'ctic1unpevz0e7xh_high',
+        'USER': 'proyectoLTL3',
         'PASSWORD': 'A2c9435207s_',
         
     },
@@ -132,6 +133,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     # Ruta a tus archivos estáticos
 ]
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
