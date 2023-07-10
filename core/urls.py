@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index, nosotros, blusas, vestidos, faldas, blusassale, vestidossales, faldassale, contacto, registrar, productos, form_mod_cliente, listar_mod_cliente, elim_cliente, listar_mod_despacho, crear_despacho, form_mod_despacho, agregar_producto, listar_productos
-from .views import  eliminar_producto, modificar_producto, agregar_boleta, listar_mod_boleta, eliminar_boleta
+from .views import  eliminar_producto, modificar_producto, agregar_boleta, listar_mod_boleta, elim_boleta, form_mod_boleta
 from django.conf import settings
 from django.conf.urls.static import static 
 
@@ -28,8 +28,8 @@ urlpatterns = [
     path('eliminar-producto/<id>/', eliminar_producto, name="eliminar_producto"),
     path('agregar_boleta', agregar_boleta, name="agregar_boleta"),
     path('listar_mod_boleta', listar_mod_boleta, name = 'listar_mod_boleta'),
-    path('form_mod_boleta/<id>', eliminar_boleta, name = 'form_mod_boleta'),
-    path('eliminar_boleta/<id>/', eliminar_boleta, name="eliminar_boleta"),
+    path('form_mod_boleta/<id>', form_mod_boleta, name = 'form_mod_boleta'),
+    path('elim_boleta/<int:id>/', elim_boleta, name="elim_boleta"),
     ]
     
 if settings.DEBUG:

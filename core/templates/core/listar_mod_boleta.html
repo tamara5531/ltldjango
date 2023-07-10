@@ -18,7 +18,7 @@
                 {% for veh in despachos %}
                     <tr><td>{{veh.id_compra}}</td><td>{{veh.valor_compra}}</td><td>{{veh.fecha_compra}}</td><td>{{veh.nombre_producto}}</td><td>{{veh.id_envio2}}</td>
                         <td><a href="{% url 'form_mod_boleta' veh.id_compra %}">Modificar</a></td>
-                        <td><a href="{% url 'eliminar_boleta' veh.id_compra %}">Eliminar</a></td>
+                        <td><a href="{% url 'elim_boleta' veh.id_compra %}">Eliminar</a></td>
                         
                     </tr>
                 {% endfor %}

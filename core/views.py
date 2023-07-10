@@ -191,7 +191,7 @@ def modificar_producto(request, id):
     return render(request, 'app/modificar.html', data)
 
 def eliminar_producto (request, id):
-    producto = get_object_or_404 (Producto, ID=id)
+    producto = get_object_or_404 (Producto, id_producto=id)
     producto.delete()
     return redirect (to ="listar_productos")
 
@@ -232,7 +232,15 @@ def form_mod_boleta(request, id):
     return render(request, 'core/form_mod_boleta.html', datos)
 
 
-def eliminar_boleta (request, id):
-    producto = get_object_or_404 (Boleta, id_compra=id)
-    producto.delete()
-    return redirect (to ="listar_boletas")
+def elim_boleta(request, id):
+    elim_bol = Boleta.objects.get(id_compra=id)
+    datos = {
+        'form': Boletaform(instance=elim_bol)
+    }
+
+    if request.method=='POST':
+        formulario=Boletaform(data=request.POST, instance=elim_bol)
+        elim_bol.delete()
+        datos['mensaje'] = "Eliminado correctamente"
+
+    return render(request, 'core/elim_boleta.html', datos)
