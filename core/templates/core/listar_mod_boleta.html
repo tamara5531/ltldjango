@@ -2,24 +2,23 @@
 
 
 
-
 {% block content %}
 {% load static %}
 
 
-<h1>Listado de Clientes</h1>
+<h1>Listado de Boleta</h1>
 <div class="container">
     <div class="row">
         <table class="table">
             <thead>
-                <tr><th scope="col">Id_cliente</th><th scope="col">Nombre</th><th scope="col">Apellido</th><th scope="col">Correo</th><th scope="col">Telefono</th><th scope="col">Comuna</th><th scope="col">Ciudad</th><th scope="col">Region</th><th scope="col">Opciones</th><th scope="col">Opciones</th>
+                <tr><th scope="col">id_compra</th><th scope="col">Valor Compra</th><th scope="col">Fecha Compra</th><th scope="col">Nombre Producto</th><th scope="col">Id Envio Despacho</th><th scope="col">Opciones</th><th scope="col">Opciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for veh in clientes %}
-                    <tr><td>{{veh.id_cliente}}</td><td>{{veh.nombre}}</td><td>{{veh.apellido}}</td><td>{{veh.correo}}</td><td>{{veh.telefono}}</td><td>{{veh.comuna}}</td><td>{{veh.ciudad}}</td><td>{{veh.region}}</td>
-                        <td><a href="{% url 'form_mod_cliente' veh.id_cliente %}">Modificar</a></td>
-                        <td><a href="{% url 'elim_cliente' veh.id_cliente %}">Eliminar</a></td>
+                {% for veh in despachos %}
+                    <tr><td>{{veh.id_compra}}</td><td>{{veh.valor_compra}}</td><td>{{veh.fecha_compra}}</td><td>{{veh.nombre_producto}}</td><td>{{veh.id_envio2}}</td>
+                        <td><a href="{% url 'form_mod_boleta' veh.id_compra %}">Modificar</a></td>
+                        <td><a href="{% url 'eliminar_boleta' veh.id_compra %}">Eliminar</a></td>
                         
                     </tr>
                 {% endfor %}
@@ -28,11 +27,12 @@
         </table>
         <a href="{% url 'productos' %}">Crear Clientes</a>
         <a href="{% url 'crear_despacho' %}">Crear Despacho</a>
-        <a href="{% url 'listar_mod_despacho' %}">Listado de Despachos</a>
         <a href="{% url 'agregar_boleta' %}">Agregar Boleta</a>
     </div>
 
 </div>
+
+
 
 <script  src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

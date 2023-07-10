@@ -1,19 +1,21 @@
 {% extends 'core/base.html' %}
 
+
 {% block content %}
 {% load static %}
+
 <div class="row">
-    <h1>Crear Guia de Despacho</h1>
+    <h1>Modificar Datos de la Boleta</h1>
 </div>
 <div class="container">
     <div class="row">
-        <form action="" method="post" id="clienteformulario">
+        <form action="" method="post" id="formulario">
             {% csrf_token %}
             <div class="form-group">
                 {{form.as_table}}
             </div>
 
-            <input type="submit" class="btn btn-danger" id="enviar" value="Grabar">
+            <input type="submit" class="btn btn-danger" id="enviar" value="Modificar">
             <input type="reset" class="btn btn-primary" id="limpiar" value="Limpiar">
             <div id="error" class="alert alert-danger" role="alert"></div>
 
@@ -24,10 +26,12 @@
     </div>
 
 </div>
+<a href="{% url 'crear_despacho' %}">Crear Despacho</a>
+<a href="{% url 'productos' %}">Crear Cliente</a>
 <a href="{% url 'listar_mod_cliente' %}">Listado de Clientes</a>
-<a href="{% url 'productos' %}">Crear Clientes</a>
 <a href="{% url 'listar_mod_despacho' %}">Listado de Despachos</a>
-<a href="{% url 'agregar_boleta' %}">Agregar Boleta</a>
+<a href="{% url 'listar_mod_boleta' %}">Listado de Boletas</a>
+
 
 <script  src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

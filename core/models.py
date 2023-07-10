@@ -1,5 +1,4 @@
-from datetime import timezone
-import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -47,7 +46,7 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    ID= models.CharField(primary_key=True, max_length = 10, verbose_name='id_producto')
+    id_producto = models.CharField(primary_key=True, max_length = 10, verbose_name='id_producto')
     nombre = models.CharField(max_length=50)
     precio = models.IntegerField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
@@ -55,10 +54,13 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
-
+    
 class Boleta(models.Model):
-    contenido_pdf = models.FileField(upload_to='boletas/')
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    id_compra = models.CharField(primary_key = True, max_length = 10, verbose_name= 'id_compra')
+    valor_compra = models.CharField(max_length = 20, verbose_name = 'valor_compra')
+    fecha_compra = models.DateField(verbose_name='fecha_envio')
+    nombre_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    id_envio2 =     models.ForeignKey(Despacho, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Boleta {self.id}'
+        return self.id_compra

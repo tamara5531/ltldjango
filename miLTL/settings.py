@@ -82,14 +82,14 @@ WSGI_APPLICATION = 'miLTL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import cx_Oracle
-cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\tamar\OneDrive\Documentos\Oracle\instantclient_19_19")
+cx_Oracle.init_oracle_client(lib_dir=r"C:\Users\josec\OneDrive\Documentos\Oracle\instantclient_19_19")
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME':'ctic1unpevz0e7xh_high',
-        'USER': 'proyectoLTL3',
-        'PASSWORD': 'A2c9435207s_',
+        'NAME':'k9mjijsf6coqw2oq_high',
+        'USER': 'proyectoLTL4',
+        'PASSWORD': 'A2c9435207k_',
         
     },
 }

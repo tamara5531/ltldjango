@@ -23,8 +23,8 @@
                 <td style="padding-right: 50px;">{{ p.precio | intcomma }}</td>
                 <td style="padding-right: 50px;"><img src="{{ p.imagen.url }}" alt="Imagen" width="50" height="50"></td>
                 <td>
-                    <a href="{% url 'modificar_producto' p.ID %}" class="btn btn-info"> modificar</a>
-                    <a href="{% url 'eliminar_producto' p.ID %}" class="btn btn-danger"> Eliminar</a>
+                    <a href="{% url 'modificar_producto' p.id_producto %}" class="btn btn-info"> modificar</a>
+                    <a href="{% url 'eliminar_producto' p.id_producto %}" class="btn btn-danger"> Eliminar</a>
                 </td>
             
             </tr>

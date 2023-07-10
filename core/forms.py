@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Cliente, Despacho, Producto
+from .models import Cliente, Despacho, Producto, Boleta
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 
@@ -51,12 +51,26 @@ class FormDespacho(ModelForm):
 class Productoform(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = [ 'nombre', 'precio', 'categoria', 'imagen']
+        fields = [ 'id_producto','nombre', 'precio', 'categoria', 'imagen']
         widgets = {
+            'id_producto': forms.TextInput(attrs={'class':'form-control'}),  
             'nombre': forms.TextInput(attrs={'class':'form-control'}),
             'precio': forms.TextInput(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class':'form-control'}),
             'imagen': forms.FileInput(attrs={'class':'form-control'}),
+        }
+
+
+class Boletaform(forms.ModelForm):
+    class Meta:
+        model = Boleta
+        fields = [ 'id_compra', 'valor_compra', 'fecha_compra', 'nombre_producto', 'id_envio2']
+        widgets = {
+            'id_compra': forms.TextInput(attrs={'class':'form-control'}),
+            'valor_compra': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_compra': forms.DateInput(attrs={'class': 'form-control'}),
+            'nombre_producto': forms.Select(attrs={'class':'form-control'}),
+            'id_envio2': forms.Select(attrs={'class':'form-control'}),
         }
 
 

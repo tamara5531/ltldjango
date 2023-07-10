@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views import View
-from .forms import CreacionUsuario, FormCliente, FormDespacho, Productoform
+from .forms import CreacionUsuario, FormCliente, FormDespacho, Productoform, Boletaform
 from django.contrib.auth import authenticate, login
-from .models import Cliente, Despacho, Producto, Boleta 
+from .models import Cliente, Despacho, Producto, Boleta
 from django.http import HttpResponseNotAllowed, JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from reportlab.pdfgen import canvas
@@ -175,7 +175,7 @@ def listar_productos(request):
     
     
 def modificar_producto(request, id):
-    producto = get_object_or_404(Producto,  ID=id)
+    producto = get_object_or_404(Producto,  id_producto=id)
 
     data = {
         'form': Productoform(instance=producto)
@@ -196,64 +196,43 @@ def eliminar_producto (request, id):
     return redirect (to ="listar_productos")
 
 
-def boleta(request):
+def agregar_boleta(request):
+    datos = {
+        'form': Boletaform()
+    }
+
     if request.method == 'POST':
-        datos_boleta = request.POST.get('datosBoleta')  # Obtener los datos JSON enviados en el cuerpo de la solicitud
-        # Realizar operaciones con los detalles de la boleta, como guardarlos en la base de datos
-        # ...
-        # Retornar una respuesta JSON (opcional)
-        return JsonResponse({'mensaje': 'Boleta guardada exitosamente'})
-    else:
-        # Manejar el caso de solicitud GET y devolver una respuesta adecuada, por ejemplo:
-        return HttpResponseNotAllowed(['POST'], 'Método no permitido')
+        formulario2 = Boletaform(request.POST)
+        if formulario2.is_valid:
+            formulario2.save()
+            datos['mensaje'] = "Guardado correctamente"
 
-class BoletaView(View):
-    def get(self, request):
-        # Obtén los detalles de la boleta desde la base de datos o cualquier otra fuente de datos
-        detalles_boleta = obtener_detalles_boleta()
+    return render(request, 'core/agregar_boleta.html', datos)
 
-        # Renderiza el template HTML con los detalles de la boleta
-        html = render_to_string('boleta.html', {'detalles_boleta': detalles_boleta})
 
-        # Crea un objeto BytesIO para almacenar el PDF generado
-        buffer = BytesIO()
+def listar_mod_boleta(request):
+    despachos = Boleta.objects.all()
+    datos = {
+        "despachos":despachos
+    }
+    return render(request, 'core/listar_mod_boleta.html',datos)
 
-        # Crea un objeto PDF utilizando ReportLab o WeasyPrint
-        p = canvas.Canvas(buffer)
 
-        # Agrega el contenido de la boleta al PDF
-        p.drawString(100, 100, 'Contenido de la boleta')
+def form_mod_boleta(request, id):
+    modifboleta = Boleta.objects.get(id_compra=id)
+    datos = {
+        'form': Boletaform(instance=modifboleta)
+    }
+    if request.method=='POST':
+        formulario= Boletaform(data=request.POST, instance=modifboleta)
+        if formulario.is_valid:
+            formulario.save()
+            datos['mensaje'] = "Modificado Correctamente"
 
-        # Guarda el PDF
-        p.showPage()
-        p.save()
+    return render(request, 'core/form_mod_boleta.html', datos)
 
-        # Establece el puntero de lectura del buffer al inicio
-        buffer.seek(0)
 
-        # Crea una instancia del modelo Boleta
-        boleta = Boleta()
-
-        # Guarda el contenido del PDF en el campo contenido_pdf de la boleta
-        boleta.contenido_pdf.save('boleta.pdf', ContentFile(buffer.getvalue()))
-
-        # Guarda la boleta en la base de datos
-        boleta.save()
-
-        # Establece el puntero de lectura del buffer al inicio nuevamente
-        buffer.seek(0)
-
-        # Crea una respuesta HTTP con el PDF como contenido
-        response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="boleta.pdf"'
-
-        return response
-    
-def obtener_detalles_boleta():
-    # Aquí implementa la lógica para obtener los detalles de la boleta desde la base de datos o cualquier otra fuente de datos
-    # Por ejemplo, puedes consultar el modelo Boleta para obtener los detalles almacenados en la base de datos
-    detalles_boleta = Boleta.objects.all()  # Ejemplo: Obtener todas las boletas
-    
-    # Realiza cualquier manipulación o transformación necesaria en los detalles de la boleta
-    
-    return detalles_boleta
+def eliminar_boleta (request, id):
+    producto = get_object_or_404 (Boleta, id_compra=id)
+    producto.delete()
+    return redirect (to ="listar_boletas")
